@@ -9,10 +9,13 @@ socket.connect({
   port: 2000,
   host: '127.0.0.1',
 }, function() {
-  socket.write('Hello from client');
   socket.on('data', function(data) {
-    user = JSON.parse(data);
-    console.log('Data received (by client): ' + data);
-    console.log('Age of ' + user.name + ' is ' + user.age);
-  });
+    var task = JSON.parse(data);
+    console.log(task);
+    var result = task.map(function (item) {
+       return item * 2;
+     });
+     socket.write(JSON.stringify(result));
+     socket.destroy();
+   });
 });
